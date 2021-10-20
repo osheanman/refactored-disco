@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.all_ratings
-    if(params.has_key?(:ratings)
+    if(params.has_key?(:ratings))
       @ratings_to_show = params(:ratings).transform_keys{|key| key.to_s.upcase}.stringify_keys
     else
       @ratings_to_show = {}
