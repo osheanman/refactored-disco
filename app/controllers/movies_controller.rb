@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
     if(params.has_key?(:ratings))
       @ratings_to_show = params[:ratings].stringify_keys
       puts @ratings_to_show
-      @ratings_to_show = @ratings_to_show.transform_keys{|key| key.upcase}
+      @ratings_to_show = @ratings_to_show.transform_keys{|key| key.upcase}.keys
       puts @ratings_to_show
     else
       @ratings_to_show = {}
