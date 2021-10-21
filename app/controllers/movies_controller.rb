@@ -13,7 +13,7 @@ class MoviesController < ApplicationController
       @ratings_to_show = @ratings_to_show.transform_keys{|key| key.upcase}.keys
       session[:ratings_to_show] = @ratings_to_show
     else
-      if session.has_key?(:ratings_to_show)
+      if session.has_key?(:ratings_to_show) && params.has_key?(:sort_by)
         @ratings_to_show = session[:ratings_to_show]
       else
         @ratings_to_show = {}
