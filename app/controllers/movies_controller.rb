@@ -17,6 +17,7 @@ class MoviesController < ApplicationController
         @ratings_to_show = session[:ratings_to_show]
       else
         @ratings_to_show = {}
+        session[:ratings_to_show] = {}
       end
     end
     if params.has_key?(:sort_by)
@@ -37,6 +38,7 @@ class MoviesController < ApplicationController
         end
       else
         @movies = Movie.with_ratings(@ratings_to_show)
+        session[:sort_by] = nil
       end
     end
   end
