@@ -24,7 +24,7 @@ class MoviesController < ApplicationController
       end
       session[:sort_by] = params[:sort_by]
     else
-      if session.has_key(:sort_by)
+      if session.has_key?(:sort_by)
         @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
       else
         @movies = Movie.with_ratings(@ratings_to_show)
