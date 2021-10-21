@@ -16,11 +16,11 @@
   <thead>
     <tr>
       <%= content_tag :th, class: @head_title_hilite do %>
-        <%= link_to 'Movie Title', movies_path({:sort_by => "title"}), id: 'title_header' %>
+        <%= link_to 'Movie Title', movies_path({:sort_by => "title", :ratings => Hash[@ratings_to_show.collect { |item| [item, 1] } ]}), id: 'title_header' %>
       <% end %>
       <th>Rating</th>
       <%= content_tag :th, class: @head_release_hilite do %>
-        <%= link_to 'Release Date', movies_path({:sort_by => "release_date"}), id: 'release_date_header' %>
+        <%= link_to 'Release Date', movies_path({:sort_by => "release_date", :ratings => Hash[@ratings_to_show.collect { |item| [item, 1] } ]}), id: 'release_date_header' %>
       <% end %>
       <th>More Info</th>
     </tr>
