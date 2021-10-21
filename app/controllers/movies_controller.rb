@@ -11,8 +11,9 @@ class MoviesController < ApplicationController
     if(params.has_key?(:ratings))
       @ratings_to_show = params[:ratings].stringify_keys
       @ratings_to_show = @ratings_to_show.transform_keys{|key| key.upcase}.keys
+      session[:ratings_to_show] = @ratings_to_show
     else
-      @ratings_to_show = {}
+      @ratings_to_show = session[:ratings_to_show]
     end
     if params.has_key?(:sort_by)
       @movies = Movie.with_ratings(@ratings_to_show).order(params[:sort_by])
@@ -21,8 +22,13 @@ class MoviesController < ApplicationController
       elsif params[:sort_by] == 'release_date'
         @head_release_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
       end
+      session[:sort_by] = params[:sort_by]
     else
-      @movies = Movie.with_ratings(@ratings_to_show)
+      if session.has_key(:sort_by)
+        @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
+      else
+        @movies = Movie.with_ratings(@ratings_to_show)
+      end
     end
   end
 
