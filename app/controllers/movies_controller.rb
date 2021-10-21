@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.all_ratings
-    if not params.has_key?(:ratings) && not params.has_key?(:sort_by)
+    unless (params.has_key?(:ratings) ||  params.has_key?(:sort_by))
       @ratings_to_show = session[:ratings_to_show]
       @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
       if session[:sort_by] == 'title'
