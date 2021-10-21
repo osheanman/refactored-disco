@@ -30,6 +30,11 @@ class MoviesController < ApplicationController
     else
       if session.has_key?(:sort_by)
         @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
+        if session[:sort_by] == 'title'
+          @head_title_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
+        elsif session[:sort_by] == 'release_date'
+          @head_release_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
+        end
       else
         @movies = Movie.with_ratings(@ratings_to_show)
       end
