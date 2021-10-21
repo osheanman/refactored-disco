@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
       end
       session[:sort_by] = params[:sort_by]
     else
-      if session.has_key?(:sort_by)
+      if session.has_key?(:sort_by) && params.has_key?(:ratings_to_show)
         @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
         if session[:sort_by] == 'title'
           @head_title_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
