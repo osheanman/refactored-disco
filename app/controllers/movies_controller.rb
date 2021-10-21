@@ -8,16 +8,21 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.all_ratings
+    if not params.has_key?(:ratings) && not params.has_key(:sort_by)
+      @ratings_to_show = session[:ratings_to_show]
+      @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
+      if session[:sort_by] == 'title'
+        @head_title_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
+      elsif session[:sort_by] == 'release_date'
+        @head_release_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
+      end
+    end
     if(params.has_key?(:ratings))
       @ratings_to_show = params[:ratings].stringify_keys
       @ratings_to_show = @ratings_to_show.transform_keys{|key| key.upcase}.keys
       session[:ratings_to_show] = @ratings_to_show
     else
-      if session.has_key?(:ratings_to_show) && params.has_key?(:sort_by)
-        @ratings_to_show = session[:ratings_to_show]
-      else
-        @ratings_to_show = {}
-      end
+      @ratings_to_show = {}
     end
     if params.has_key?(:sort_by)
       @movies = Movie.with_ratings(@ratings_to_show).order(params[:sort_by])
@@ -28,18 +33,7 @@ class MoviesController < ApplicationController
       end
       session[:sort_by] = params[:sort_by]
     else
-      if session.has_key?(:sort_by) && params.has_key?(:ratings_to_show)
-        @movies = Movie.with_ratings(@ratings_to_show).order(session[:sort_by])
-        if session[:sort_by] == 'title'
-          @sort_by = 'title'
-          @head_title_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
-        elsif session[:sort_by] == 'release_date'
-          @sort_by = 'release_date'
-          @head_release_hilite = 'hilite p-3 mb-2 bg-warning text-dark'
-        end
-      else
-        @movies = Movie.with_ratings(@ratings_to_show)
-      end
+      @movies = Movie.with_ratings(@ratings_to_show)
     end
   end
 
